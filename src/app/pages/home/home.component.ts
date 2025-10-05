@@ -16,7 +16,7 @@ import { CurrencyService } from '../../core/services/currency.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent {
   currencyCode: string = 'USD';
   currentRate?: CurrentExchange;
   dailyRates: DailyExchange[] = [];
@@ -30,11 +30,6 @@ export class HomeComponent implements OnInit{
     private exchangeService: ExchangeService,
     private currencyService: CurrencyService
   ) {}
-
-  ngOnInit(): void {
-    this.fetchExchange();
-    this.fetchLast30Days();
-  }
 
   checkInput() {
     if (!this.currencyCode) {
