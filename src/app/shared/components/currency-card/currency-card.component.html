@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="date">{{ day.date | date : "dd/MM/yyyy" }}</div>
+    <div class="items">
+        <div class="item">
+            OPEN: <span class="bold">R$ {{ day.open }}</span>
+        </div>
+        <div class="item">
+            HIGH: <span class="bold">R$ {{ day.high }}</span>
+        </div>
+        <div class="item">
+            CLOSE: <span class="bold">R$ {{ day.close }}</span>
+        </div>
+        <div class="item">
+            LOW: <span class="bold">R$ {{ day.low }}</span>
+        </div>
+    </div>
+    <div>
+        CLOSE DIFF (%): 
+        <span class="diff bold"
+            [ngClass]="{
+            positive: day.closeDiff! > 0,
+            negative: day.closeDiff! < 0
+            }"
+        >  
+            {{ day.closeDiff | number:'1.2-2' }}%
+            {{ day.closeDiff! > 0 ? '^' : (day.closeDiff! < 0 ? '˅' : '') }}
+        </span>
+    </div>
+</div>
+

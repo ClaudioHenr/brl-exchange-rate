@@ -1,0 +1,62 @@
+<div class="container">
+    <header class="header">
+        <img src="../../../assets/icons/icon_main.png" alt="Icone da Action Labs">
+        <div class="line"></div>
+    </header>
+
+    <h1 class="title">BRL Exchange Rate</h1>
+
+    <div class="center-div">
+        <input
+            class="input"
+            name="exchange"
+            [(ngModel)]="currencyCode"
+            [ngClass]="{ 'input-error': !isValid && currencyCode }"
+            placeholder="Enter the currency code (ex: USD)"
+            (input)="checkInput()"
+        />
+        <p *ngIf="!isValid" class="error">Invalid currency code!</p>
+    </div>
+
+    <button (click)="fetchExchange()" class="btn">EXCHANGE RESULT</button>
+
+    <div class="line light"></div>
+
+    @if (currencyCode && currentRate) {
+        <div>
+            <div class="exchange-rate-row">
+                <div class="rate-info">
+                    <h2>Exchange rate now</h2>
+                    <p>{{ currentRate.lastUpdatedAt | date: "dd/MM/yyyy - HH:mm" }}</p>
+                </div>
+                <div class="rate-symbol">
+                    {{ currentRate.fromSymbol }}/BRL
+                </div>
+            </div>
+            <div class="exchange-amount">
+                <p>
+                    {{ currentRate.toSymbolIcon }} {{ currentRate.exchangeRate| number : '1.4-4' }}
+                </p>
+            </div>
+    
+            <button class="last-30-btn" (click)="fetchLast30Days()">
+                <span>Last 30 days</span>
+                <span class="icon">{{ showLast30 ? '-' : '+' }}</span>
+            </button>
+    
+            <div *ngIf="loading" class="loading">Carregando...</div>
+            <div *ngIf="error" class="error">{{ error }}</div>
+    
+            @if (showLast30) {
+                <div class="cards">
+                    @for (day of dailyRates; track day.date) {
+                        <app-currency-card [day]="day"></app-currency-card>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+<footer>
+    <p>Copyright {{ currentYear }} - Action Labs</p>
+</footer>
